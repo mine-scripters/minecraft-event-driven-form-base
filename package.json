@@ -1,0 +1,40 @@
+{
+  "name": "@mine-scripters/minecraft-event-driven-form-base",
+  "version": "0.0.0",
+  "description": "Event driven minecraft forms base",
+  "main": "./dist/MinecraftEventDrivenForm.js",
+  "types": "./dist/MinecraftEventDrivenForm.d.ts",
+  "private": false,
+  "devDependencies": {
+    "typescript": "^5.8.2",
+    "@typescript-eslint/eslint-plugin": "^8.26.1",
+    "@typescript-eslint/parser": "^8.26.1",
+    "eslint": "^9.22.0",
+    "eslint-config-prettier": "^10.1.1",
+    "eslint-plugin-jest": "^28.11.0",
+    "prettier": "^3.5.3",
+    "rollup": "^4.35.0",
+    "rollup-plugin-ts": "^3.4.5"
+  },
+  "scripts": {
+    "build": "rollup -c",
+    "test": "jest",
+    "prettier": "npm run prettier:base -- --write",
+    "prettier:check": "npm run prettier:base -- --check",
+    "prettier:base": "prettier src/** *.json ./*js README.md",
+    "lint": "eslint src",
+    "lint:fix": "eslint --fix src"
+  },
+  "files": [
+    "package.json",
+    "dist/**",
+    "README.md",
+    "LICENSE.txt"
+  ],
+  "keywords": [
+    "minecraft",
+    "minecraft-scripting"
+  ],
+  "author": "Josejulio Martínez",
+  "license": "Apache-2.0"
+}
