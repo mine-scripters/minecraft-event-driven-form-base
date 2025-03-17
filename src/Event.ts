@@ -83,7 +83,13 @@ export class FormEvent {
   }
 }
 
+/**
+ * @inline
+ */
 type EventReceiverFunction = (event: FormEvent) => Promise<void>;
+/**
+ * @inline
+ */
 type EventReceiverMap = Record<string, EventReceiverFunction>;
 export type EventReceiver = EventReceiverFunction | EventReceiverMap | undefined;
 

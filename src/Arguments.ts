@@ -1,10 +1,16 @@
 import { FormArgumentError } from './Errors';
 import { NormalizedTextContent, TextContent } from './Primitives';
 
+/**
+ * @inline
+ */
 interface ToString {
   toString(): string;
 }
 
+/**
+ * @inline
+ */
 type StringResolvableMap = {
   [key: string]: StringResolvable;
 };

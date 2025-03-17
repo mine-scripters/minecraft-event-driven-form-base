@@ -8,11 +8,11 @@ export interface InputForm {
   action?: FormAction;
 }
 
-type InputValue = string | number | boolean;
+export type InputValue = string | number | boolean;
 
-type InputElement = InputElementSlider | InputElementDropdown | InputElementText | InputElementToggle;
+export type InputElement = InputElementSlider | InputElementDropdown | InputElementText | InputElementToggle;
 
-type InputElementSlider = {
+export type InputElementSlider = {
   type: 'slider';
   name?: string;
   text: TextContent;
@@ -22,7 +22,7 @@ type InputElementSlider = {
   defaultValue?: number;
 };
 
-type InputElementDropdown = {
+export type InputElementDropdown = {
   type: 'dropdown';
   name?: string;
   text: TextContent;
@@ -33,7 +33,7 @@ type InputElementDropdown = {
   }>;
 };
 
-type InputElementText = {
+export type InputElementText = {
   type: 'text';
   name?: string;
   text: TextContent;
@@ -41,7 +41,7 @@ type InputElementText = {
   defaultValue?: string;
 };
 
-type InputElementToggle = {
+export type InputElementToggle = {
   type: 'toggle';
   name?: string;
   text: TextContent;
