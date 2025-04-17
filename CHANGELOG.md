@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.1.0](https://github.com/mine-scripters/minecraft-event-driven-form-base/compare/v1.0.1...v1.1.0) (2025-04-17)
+
+
+### Features
+
+* Allow our translate function to have arguments ([dcb5dee](https://github.com/mine-scripters/minecraft-event-driven-form-base/commit/dcb5dee39de020c2d3ac90570392b9e33109ab20))
+
+
+### Bug Fixes
+
+* translate _ should set args to undefined if not provided ([fa4fa96](https://github.com/mine-scripters/minecraft-event-driven-form-base/commit/fa4fa96a165e18b929710898b565ab2635372180))
+
 ## [1.0.1](https://github.com/mine-scripters/minecraft-event-driven-form-base/compare/v1.0.0...v1.0.1) (2025-03-17)
 
 
