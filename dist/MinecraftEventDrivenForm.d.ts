@@ -154,5 +154,5 @@ type EventReceiverFunction = (event: FormEvent) => Promise<void>;
 type EventReceiverMap = Record<string, EventReceiverFunction>;
 type EventReceiver = EventReceiverFunction | EventReceiverMap | undefined;
 declare const triggerEvent: (event: FormEvent, receiver: EventReceiver) => Promise<Form | undefined>;
-declare const _: (value: string) => Translate;
+declare const _: (value: string, ...args: Array<TextContent>) => Translate;
 export { InputForm, InputValue, InputElement, InputElementSlider, InputElementDropdown, InputElementText, InputElementToggle, MultiButtonForm, MultiButtonElement, MultiButtonElementButton, DualButtonForm, DualButtonElement, DualButtonElementButton, Form, StringResolvable, FormArguments, FormError, FormArgumentError, FormEvent, EventReceiver, triggerEvent, FormHub, Translate, TextContent, NormalizedTextContent, FormAction, _ };
