@@ -38,7 +38,7 @@ export class FormArguments {
     return this._args[name] as Arg;
   }
 
-  resolvePath(path: string): string {
+  resolvePath(path: string): StringResolvable {
     let current: StringResolvable = this._args;
     const splitPath = path.split('.');
     for (const step of splitPath) {
@@ -49,12 +49,12 @@ export class FormArguments {
       }
     }
 
-    return current.toString();
+    return current;
   }
 
   resolveTemplate(template: string) {
     return template.replace(/\{\s*([^}\s]+)\s*\}/g, (_, p1) => {
-      return this.resolvePath(p1);
+      return this.resolvePath(p1).toString();
     });
   }
 

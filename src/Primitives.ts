@@ -1,3 +1,5 @@
+import { StringResolvable } from './Arguments';
+
 export interface Translate {
   translate: string;
   args?: Array<TextContent>;
@@ -20,9 +22,17 @@ export type NormalizedTextContent =
       array: Array<NormalizedTextContent>;
     };
 
+export interface EventAction {
+  event: string;
+  args?: Array<unknown>;
+}
+
 export interface FormAction {
   form?: string;
-  event?: string;
+
+  event?: string | Array<EventAction>;
   eventArgs?: Array<unknown>;
+
+  setArgs?: Record<string, StringResolvable>;
   copyArgs?: boolean;
 }
