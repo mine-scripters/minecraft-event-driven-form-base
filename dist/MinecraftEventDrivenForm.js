@@ -43,11 +43,11 @@ class FormArguments {
                 throw new FormArgumentError(path, step, current);
             }
         }
-        return current.toString();
+        return current;
     }
     resolveTemplate(template) {
         return template.replace(/\{\s*([^}\s]+)\s*\}/g, (_, p1) => {
-            return this.resolvePath(p1);
+            return this.resolvePath(p1).toString();
         });
     }
     normalize(content) {
@@ -73,27 +73,77 @@ class FormArguments {
     }
 }
 
+class FormEventProducer {
+    _hub;
+    _formAction;
+    _args;
+    static fromFormHub(hub) {
+        if (typeof hub.entrypoint === 'string') {
+            return new FormEventProducer(hub, {
+                form: hub.entrypoint,
+            });
+        }
+        else {
+            return new FormEventProducer(hub, {
+                form: hub.entrypoint.form,
+                event: hub.entrypoint.events,
+                eventArgs: hub.entrypoint.eventArgs,
+            });
+        }
+    }
+    constructor(hub, formAction, previousArgs) {
+        this._hub = hub;
+        this._formAction = formAction;
+        this._args = new FormArguments();
+        if (this._formAction?.copyArgs && previousArgs) {
+            this._args.setAll(previousArgs.getAll());
+        }
+        if (this._formAction?.setArgs) {
+            this._args.setAll(this._formAction.setArgs);
+        }
+    }
+    get args() {
+        return this._args;
+    }
+    getInitialForm() {
+        return this._formAction?.form ? this._hub.forms[this._formAction.form] : undefined;
+    }
+    *iterator() {
+        if (this._formAction) {
+            if (!this._formAction.event) {
+                yield new FormEvent(this._hub, undefined, this._args);
+            }
+            else if (typeof this._formAction.event === 'string') {
+                yield new FormEvent(this._hub, {
+                    event: this._formAction.event,
+                    args: this._formAction.eventArgs,
+                }, this._args);
+            }
+            else {
+                for (const event of this._formAction.event) {
+                    yield new FormEvent(this._hub, {
+                        event: event.event,
+                        args: event.args ?? this._formAction.eventArgs,
+                    }, this._args);
+                }
+            }
+        }
+    }
+}
 class FormEvent {
     _form = undefined;
     _name = undefined;
     _continueProcessing = true;
     _hub;
-    _args = new FormArguments();
+    _args;
     _eventArgs = [];
-    constructor(hub, action, previousArgs) {
+    constructor(hub, eventAction, args) {
         this._hub = hub;
-        if (action) {
-            if (action.event) {
-                this._name = action.event;
-            }
-            if (action.form) {
-                this._form = this._hub.forms[action.form];
-            }
-            if (action.copyArgs && previousArgs) {
-                this._args.setAll(previousArgs.getAll());
-            }
-            if (action.eventArgs) {
-                this._eventArgs = action.eventArgs;
+        this._args = args;
+        if (eventAction) {
+            this._name = eventAction.event;
+            if (eventAction.args) {
+                this._eventArgs = eventAction.args;
             }
         }
     }
@@ -129,26 +179,26 @@ class FormEvent {
         this._continueProcessing = false;
     }
 }
-const triggerEvent = async (event, receiver) => {
-    if (event.name) {
-        if (receiver === undefined) {
-            return;
-        }
-        else if (typeof receiver === 'function') {
-            await receiver(event);
-        }
-        else {
-            for (const [key, eventReceiver] of Object.entries(receiver)) {
-                if (!event.continueProcessing) {
-                    break;
+const triggerEvent = async (eventProducer, receiver) => {
+    let form = eventProducer.getInitialForm();
+    if (receiver) {
+        for (const event of eventProducer.iterator()) {
+            event.form = form;
+            if (event.name) {
+                if (typeof receiver === 'function') {
+                    await receiver(event);
                 }
-                if (key === event.name) {
-                    await eventReceiver(event);
+                else if (event.name in receiver) {
+                    await receiver[event.name](event);
                 }
+            }
+            form = event.form;
+            if (!event.continueProcessing) {
+                break;
             }
         }
     }
-    return event.form;
+    return form;
 };
 
 const _ = (value, ...args) => ({
@@ -156,5 +206,5 @@ const _ = (value, ...args) => ({
     args: args.length > 0 ? args : undefined,
 });
 
-export { FormArgumentError, FormArguments, FormError, FormEvent, _, triggerEvent };
+export { FormArgumentError, FormArguments, FormError, FormEvent, FormEventProducer, _, triggerEvent };
 //# sourceMappingURL=MinecraftEventDrivenForm.js.map

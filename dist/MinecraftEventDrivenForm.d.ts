@@ -1,3 +1,26 @@
+/**
+ * @inline
+ */
+interface ToString {
+    toString(): string;
+}
+/**
+ * @inline
+ */
+type StringResolvableMap = {
+    [key: string]: StringResolvable;
+};
+type StringResolvable = ToString | StringResolvableMap;
+declare class FormArguments {
+    private _args;
+    set(name: string, arg: StringResolvable): void;
+    setAll(args: Record<string, StringResolvable>): void;
+    getAll(): Record<string, StringResolvable>;
+    get<Arg extends StringResolvable>(name: string): Arg;
+    resolvePath(path: string): StringResolvable;
+    resolveTemplate(template: string): string;
+    normalize(content: TextContent): NormalizedTextContent;
+}
 interface Translate {
     translate: string;
     args?: Array<TextContent>;
@@ -14,10 +37,15 @@ type NormalizedTextContent = {
     type: "array";
     array: Array<NormalizedTextContent>;
 };
+interface EventAction {
+    event: string;
+    args?: Array<unknown>;
+}
 interface FormAction {
     form?: string;
-    event?: string;
+    event?: string | Array<EventAction>;
     eventArgs?: Array<unknown>;
+    setArgs?: Record<string, StringResolvable>;
     copyArgs?: boolean;
 }
 interface DualButtonForm {
@@ -88,29 +116,6 @@ interface MultiButtonElementButton {
     action?: FormAction;
 }
 type Form = MultiButtonForm | InputForm | DualButtonForm;
-/**
- * @inline
- */
-interface ToString {
-    toString(): string;
-}
-/**
- * @inline
- */
-type StringResolvableMap = {
-    [key: string]: StringResolvable;
-};
-type StringResolvable = ToString | StringResolvableMap;
-declare class FormArguments {
-    private _args;
-    set(name: string, arg: StringResolvable): void;
-    setAll(args: Record<string, StringResolvable>): void;
-    getAll(): Record<string, StringResolvable>;
-    get<Arg extends StringResolvable>(name: string): Arg;
-    resolvePath(path: string): string;
-    resolveTemplate(template: string): string;
-    normalize(content: TextContent): NormalizedTextContent;
-}
 declare class FormError extends Error {
     constructor(msg: string);
 }
@@ -120,9 +125,24 @@ declare class FormArgumentError extends FormError {
     readonly current: unknown;
     constructor(path: string, step: string, current: unknown);
 }
+interface Entrypoint {
+    form?: string;
+    events?: string | Array<EventAction>;
+    eventArgs?: Array<unknown>;
+}
 interface FormHub {
-    entrypoint: string;
+    entrypoint: string | Entrypoint;
     forms: Record<string, Form>;
+}
+declare class FormEventProducer {
+    protected _hub: FormHub;
+    protected _formAction: FormAction | undefined;
+    protected _args: FormArguments;
+    static fromFormHub(hub: FormHub): FormEventProducer;
+    constructor(hub: FormHub, formAction?: FormAction, previousArgs?: FormArguments);
+    get args(): FormArguments;
+    getInitialForm(): Form | undefined;
+    iterator(): Generator<FormEvent, void, unknown>;
 }
 declare class FormEvent {
     protected _form: Form | undefined;
@@ -131,7 +151,7 @@ declare class FormEvent {
     protected readonly _hub: FormHub;
     protected _args: FormArguments;
     protected _eventArgs: Array<unknown>;
-    constructor(hub: FormHub, action?: FormAction, previousArgs?: FormArguments);
+    constructor(hub: FormHub, eventAction: EventAction | undefined, args: FormArguments);
     loadForm(name: string): Form;
     loadForm(name: string, type: "multi-button"): MultiButtonForm;
     loadForm(name: string, type: "input"): InputForm;
@@ -153,6 +173,6 @@ type EventReceiverFunction = (event: FormEvent) => Promise<void>;
  */
 type EventReceiverMap = Record<string, EventReceiverFunction>;
 type EventReceiver = EventReceiverFunction | EventReceiverMap | undefined;
-declare const triggerEvent: (event: FormEvent, receiver: EventReceiver) => Promise<Form | undefined>;
+declare const triggerEvent: (eventProducer: FormEventProducer, receiver: EventReceiver) => Promise<Form | undefined>;
 declare const _: (value: string, ...args: Array<TextContent>) => Translate;
-export { InputForm, InputValue, InputElement, InputElementSlider, InputElementDropdown, InputElementText, InputElementToggle, MultiButtonForm, MultiButtonElement, MultiButtonElementButton, DualButtonForm, DualButtonElement, DualButtonElementButton, Form, StringResolvable, FormArguments, FormError, FormArgumentError, FormEvent, EventReceiver, triggerEvent, FormHub, Translate, TextContent, NormalizedTextContent, FormAction, _ };
+export { InputForm, InputValue, InputElement, InputElementSlider, InputElementDropdown, InputElementText, InputElementToggle, MultiButtonForm, MultiButtonElement, MultiButtonElementButton, DualButtonForm, DualButtonElement, DualButtonElementButton, Form, StringResolvable, FormArguments, FormError, FormArgumentError, FormEventProducer, FormEvent, EventReceiver, triggerEvent, Entrypoint, FormHub, Translate, TextContent, NormalizedTextContent, EventAction, FormAction, _ };
