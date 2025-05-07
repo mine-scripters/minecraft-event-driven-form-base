@@ -1,5 +1,16 @@
 # Changelog
 
+## [2.0.0](https://github.com/mine-scripters/minecraft-event-driven-form-base/compare/v1.1.0...v2.0.0) (2025-05-07)
+
+
+### ⚠ BREAKING CHANGES
+
+* Support for multiple events and events as entrypoint
+
+### Features
+
+* Support for multiple events and events as entrypoint ([27d43f4](https://github.com/mine-scripters/minecraft-event-driven-form-base/commit/27d43f4012c8dbffb2b11c3844468cbdf720f64d))
+
 ## [1.1.0](https://github.com/mine-scripters/minecraft-event-driven-form-base/compare/v1.0.1...v1.1.0) (2025-04-17)
 
 
