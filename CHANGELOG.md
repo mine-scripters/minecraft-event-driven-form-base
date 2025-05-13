@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.1.0](https://github.com/mine-scripters/minecraft-event-driven-form-base/compare/v2.0.0...v2.1.0) (2025-05-13)
+
+
+### Features
+
+* Allow setting args params on entrypoint ([d5e3463](https://github.com/mine-scripters/minecraft-event-driven-form-base/commit/d5e34639d331364d2eaf5d1d3561edfee24b6d97))
+
 ## [2.0.0](https://github.com/mine-scripters/minecraft-event-driven-form-base/compare/v1.1.0...v2.0.0) (2025-05-07)
 
 
