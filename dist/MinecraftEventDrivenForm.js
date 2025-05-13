@@ -88,6 +88,7 @@ class FormEventProducer {
                 form: hub.entrypoint.form,
                 event: hub.entrypoint.events,
                 eventArgs: hub.entrypoint.eventArgs,
+                setArgs: hub.entrypoint.initialArgs,
             });
         }
     }
