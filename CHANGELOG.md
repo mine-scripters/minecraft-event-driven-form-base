@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.1.1](https://github.com/mine-scripters/minecraft-event-driven-form-base/compare/v2.1.0...v2.1.1) (2025-05-14)
+
+
+### Bug Fixes
+
+* Make initialArgs optional ([2be99c8](https://github.com/mine-scripters/minecraft-event-driven-form-base/commit/2be99c89d7b7a7fdf5977bb1bf50365c5512feb8))
+
 ## [2.1.0](https://github.com/mine-scripters/minecraft-event-driven-form-base/compare/v2.0.0...v2.1.0) (2025-05-13)
 
 
