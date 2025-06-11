@@ -558,4 +558,32 @@ describe('Event', () => {
     expect(fn3).not.toHaveBeenCalled();
     expect(next).toEqual(createFormHub().forms.multi);
   });
+
+  it('entrypoint other than a string', async () => {
+    const producer = FormEventProducer.fromFormHub({
+      entrypoint: {
+        form: 'test',
+        initialArgs: {
+          myVal: 4,
+        },
+      },
+      forms: {
+        test: {
+          type: 'multi-button',
+          title: 'myVal is: {myVal}',
+          elements: [],
+        },
+      },
+    });
+
+    const next = await triggerEvent(producer, {});
+
+    expect(next).toEqual({
+      type: 'multi-button',
+      title: 'myVal is: {myVal}',
+      elements: [],
+    });
+
+    expect(producer.args.resolveTemplate('myVal is: {myVal}')).toBe('myVal is: 4');
+  });
 });
