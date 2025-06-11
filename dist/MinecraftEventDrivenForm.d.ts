@@ -145,6 +145,8 @@ declare class FormEventProducer {
     getInitialForm(): Form | undefined;
     iterator(): Generator<FormEvent, void, unknown>;
 }
+type FormType = "multi-button" | "input" | "dual-button";
+type LoadFormReturn<T extends FormType | undefined> = T extends "multi-button" ? MultiButtonForm : T extends "input" ? InputForm : T extends "dual-button" ? DualButtonForm : Form;
 declare class FormEvent {
     protected _form: Form | undefined;
     protected _name: string | undefined;
@@ -153,10 +155,7 @@ declare class FormEvent {
     protected _args: FormArguments;
     protected _eventArgs: Array<unknown>;
     constructor(hub: FormHub, eventAction: EventAction | undefined, args: FormArguments);
-    loadForm(name: string): Form;
-    loadForm(name: string, type: "multi-button"): MultiButtonForm;
-    loadForm(name: string, type: "input"): InputForm;
-    loadForm(name: string, type: "dual-button"): InputForm;
+    loadForm<T extends FormType>(name: string, type?: T | undefined): LoadFormReturn<T>;
     set form(form: Form | undefined);
     get form(): Form | undefined;
     get name(): string | undefined;
