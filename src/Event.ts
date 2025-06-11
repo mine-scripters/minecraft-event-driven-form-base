@@ -1,6 +1,6 @@
 import { FormError } from './Errors';
 import { FormHub } from './Hub';
-import { Form } from './form';
+import { DualButtonForm, Form } from './form';
 import { InputForm } from './form/Input';
 import { MultiButtonForm } from './form/MultiButton';
 import { FormArguments } from './Arguments';
@@ -77,6 +77,15 @@ export class FormEventProducer {
   }
 }
 
+type FormType = 'multi-button' | 'input' | 'dual-button';
+type LoadFormReturn<T extends FormType | undefined> = T extends 'multi-button'
+  ? MultiButtonForm
+  : T extends 'input'
+    ? InputForm
+    : T extends 'dual-button'
+      ? DualButtonForm
+      : Form;
+
 export class FormEvent {
   protected _form: Form | undefined = undefined;
   protected _name: string | undefined = undefined;
@@ -97,12 +106,7 @@ export class FormEvent {
     }
   }
 
-  loadForm(name: string): Form;
-  loadForm(name: string, type: 'multi-button'): MultiButtonForm;
-  loadForm(name: string, type: 'input'): InputForm;
-  loadForm(name: string, type: 'dual-button'): InputForm;
-
-  loadForm(name: string, type?: 'multi-button' | 'input' | 'dual-button'): Form {
+  loadForm<T extends FormType>(name: string, type?: T | undefined): LoadFormReturn<T> {
     if (name in this._hub.forms) {
       const form = this._hub.forms[name];
       if (type && form.type !== type) {
