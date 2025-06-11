@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.1.2](https://github.com/mine-scripters/minecraft-event-driven-form-base/compare/v2.1.1...v2.1.2) (2025-06-11)
+
+
+### Bug Fixes
+
+* loadForm returns an InputForm when sending 'input' as type ([047e5d8](https://github.com/mine-scripters/minecraft-event-driven-form-base/commit/047e5d83dc817f6fb339ceea2411f2c834af79fa))
+
 ## [2.1.1](https://github.com/mine-scripters/minecraft-event-driven-form-base/compare/v2.1.0...v2.1.1) (2025-05-14)
 
 
