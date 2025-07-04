@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.2.0](https://github.com/mine-scripters/minecraft-event-driven-form-base/compare/v2.1.2...v2.2.0) (2025-07-04)
+
+
+### Features
+
+* Adds new elements from 2.0.0 API ([65f8ef6](https://github.com/mine-scripters/minecraft-event-driven-form-base/commit/65f8ef61739e3b03be0df9838e5f93f1586ac2ac))
+
 ## [2.1.2](https://github.com/mine-scripters/minecraft-event-driven-form-base/compare/v2.1.1...v2.1.2) (2025-06-11)
 
 
