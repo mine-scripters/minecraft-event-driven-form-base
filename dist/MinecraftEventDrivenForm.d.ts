@@ -61,6 +61,18 @@ interface DualButtonElementButton {
     text: TextContent;
     action?: FormAction;
 }
+interface Divider {
+    type: "divider";
+}
+interface Label {
+    type: "label";
+    text: TextContent;
+}
+interface Header {
+    type: "header";
+    text: TextContent;
+}
+type UIElement = Divider | Label | Header;
 interface InputForm {
     type: "input";
     title: TextContent;
@@ -69,7 +81,7 @@ interface InputForm {
     action?: FormAction;
 }
 type InputValue = string | number | boolean;
-type InputElement = InputElementSlider | InputElementDropdown | InputElementText | InputElementToggle;
+type InputElement = InputElementSlider | InputElementDropdown | InputElementText | InputElementToggle | UIElement;
 type InputElementSlider = {
     type: "slider";
     name?: string;
@@ -78,6 +90,7 @@ type InputElementSlider = {
     max: number;
     step: number;
     defaultValue?: number;
+    tooltip?: TextContent;
 };
 type InputElementDropdown = {
     type: "dropdown";
@@ -88,6 +101,7 @@ type InputElementDropdown = {
         text: TextContent;
         value: InputValue;
     }>;
+    tooltip?: TextContent;
 };
 type InputElementText = {
     type: "text";
@@ -95,12 +109,14 @@ type InputElementText = {
     text: TextContent;
     placeholder: TextContent;
     defaultValue?: string;
+    tooltip?: TextContent;
 };
 type InputElementToggle = {
     type: "toggle";
     name?: string;
     text: TextContent;
     defaultValue?: boolean;
+    tooltip?: TextContent;
 };
 interface MultiButtonForm {
     type: "multi-button";
@@ -108,7 +124,7 @@ interface MultiButtonForm {
     body?: TextContent;
     elements: Array<MultiButtonElement>;
 }
-type MultiButtonElement = MultiButtonElementButton;
+type MultiButtonElement = MultiButtonElementButton | UIElement;
 interface MultiButtonElementButton {
     type: "button";
     text: TextContent;
