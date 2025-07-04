@@ -1,4 +1,5 @@
 import { FormAction, TextContent } from '../Primitives';
+import { UIElement } from './UIElement';
 
 export interface MultiButtonForm {
   type: 'multi-button';
@@ -7,7 +8,7 @@ export interface MultiButtonForm {
   elements: Array<MultiButtonElement>;
 }
 
-export type MultiButtonElement = MultiButtonElementButton;
+export type MultiButtonElement = MultiButtonElementButton | UIElement;
 
 export interface MultiButtonElementButton {
   type: 'button';

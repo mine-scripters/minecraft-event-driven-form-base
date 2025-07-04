@@ -1,4 +1,5 @@
 import { FormAction, TextContent } from '../Primitives';
+import { UIElement } from './UIElement';
 
 export interface InputForm {
   type: 'input';
@@ -10,7 +11,12 @@ export interface InputForm {
 
 export type InputValue = string | number | boolean;
 
-export type InputElement = InputElementSlider | InputElementDropdown | InputElementText | InputElementToggle;
+export type InputElement =
+  | InputElementSlider
+  | InputElementDropdown
+  | InputElementText
+  | InputElementToggle
+  | UIElement;
 
 export type InputElementSlider = {
   type: 'slider';
@@ -20,6 +26,7 @@ export type InputElementSlider = {
   max: number;
   step: number;
   defaultValue?: number;
+  tooltip?: TextContent;
 };
 
 export type InputElementDropdown = {
@@ -31,6 +38,7 @@ export type InputElementDropdown = {
     text: TextContent;
     value: InputValue;
   }>;
+  tooltip?: TextContent;
 };
 
 export type InputElementText = {
@@ -39,6 +47,7 @@ export type InputElementText = {
   text: TextContent;
   placeholder: TextContent;
   defaultValue?: string;
+  tooltip?: TextContent;
 };
 
 export type InputElementToggle = {
@@ -46,4 +55,5 @@ export type InputElementToggle = {
   name?: string;
   text: TextContent;
   defaultValue?: boolean;
+  tooltip?: TextContent;
 };
